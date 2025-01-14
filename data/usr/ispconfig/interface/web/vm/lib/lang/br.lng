@@ -1,6 +1,0 @@
-<?php
-$wb['Virtual Servers'] = 'Máquinas virtuais';
-$wb['OS Templates'] = 'Gabaritos de SO';
-$wb['VM Templates'] = 'Gabaritos de VM';
-$wb['IP addresses'] = 'Endereço IP';
-$wb['OpenVZ'] = 'OpenVZ';

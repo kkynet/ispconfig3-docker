@@ -1,1 +1,0 @@
-/usr/local/ispconfig/server/plugins-available/rspamd_plugin.inc.php
