@@ -1,3 +1,0 @@
-<?php
-$wb['available_modules_txt'] = 'Módulos disponíveis';
-$wb['go_to_txt'] = 'Ir para';
