@@ -1,0 +1,7 @@
+<?php
+$wb['head_txt'] = 'E-Mail-Konfiguration aus Vpopmail importieren';
+$wb['legend_txt'] = 'Verbindungsdetails des entfernten Datenbankservers';
+$wb['btn_start_txt'] = 'Import starten';
+$wb['btn_connect_txt'] = 'Verbindung zum entfernten Server herstellen';
+$wb['btn_cancel_txt'] = 'Abbrechen';
+?>

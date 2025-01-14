@@ -1,0 +1,54 @@
+version: "3"
+services:
+
+    ispconfig3:
+        container_name: ispconfig3
+        image: ispconfig3-php8.2:debian11
+        restart: always
+        stdin_open: true
+        tty: true
+        privileged: true
+#        env_file:
+#          - ./.env
+        volumes:
+          - ./resolv.conf:/etc/resolv.conf
+          - ./debian.cnf:/etc/mysql/debian.cnf
+          - ./supervisor:/etc/supervisor
+          - ./usr/local/ispconfig:/usr/local/ispconfig
+#          - ./autoinstall.ini:/tmp/ispconfig3_install/install/autoinstall.ini # remove after install
+#          - ./install.php:/tmp/ispconfig3_install/install/install.php # remove after install
+#          - ./data/letsencrypt:/etc/letsencrypt
+#          - ./data/etc/apache2/sites-available:/etc/apache2/sites-available
+#          - ./data/etc/apache2/sites-enabled:/etc/apache2/sites-enabled
+#          - ./data/www:/var/www/
+#          - ./data/backup:/var/backup/
+#          - ./data/usr/ispconfig:/usr/local/ispconfig
+#          - ./data/etc/cron.d:/etc/cron.d
+#          - ./data/kis/bind:/etc/bind
+        hostname: panel.wr2k.net
+        extra_hosts:
+          - "panel.wr2k.net:192.168.50.17"
+        cap_add:
+          - ALL
+#          - NET_ADMIN
+#          - NET_RAW
+        ports:
+            - "80:80"
+            - "443:443"
+            - "8080:8080"
+            - "8081:8081"
+        networks:
+           external:
+              ipv4_address: 117.102.160.194
+           internal:
+              ipv4_address: 10.0.2.3
+        entrypoint: /bin/sh -c "/usr/bin/supervisord"
+
+
+networks:
+    external:
+        external:
+            name: external
+    internal:
+        external:
+            name: internal.60
