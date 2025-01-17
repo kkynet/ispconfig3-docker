@@ -6,11 +6,11 @@
 # anyway thanks to unix socket authentication and hence
 # this file is useless. See package README for more info.
 [client]
-host     = 
+host     = localhost
 user     = root
-password = dbispconfigpass
+password = 
 [mysql_upgrade]
-host     = 
+host     = localhost
 user     = root
-password = dbispconfigpass
+password = 
 # THIS FILE WILL BE REMOVED IN A FUTURE DEBIAN RELEASE.
