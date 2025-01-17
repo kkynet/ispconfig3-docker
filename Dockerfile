@@ -92,7 +92,7 @@ RUN apt-get -qq -o Dpkg::Use-Pty=0 --no-install-recommends install libapache2-mo
 WORKDIR /tmp
 RUN wget "https://ispconfig.org/downloads/ISPConfig-${BUILD_ISPCONFIG_VERSION}.tar.gz" -q && \
     tar xfz ISPConfig-${BUILD_ISPCONFIG_VERSION}.tar.gz
-COPY ./autoinstall /tmp/ispconfig3_install/install/autoinstall.ini
+COPY ./autoinstall.ini /tmp/ispconfig3_install/install/autoinstall.ini
 RUN touch "/etc/mailname" && \
     sed -i "s|mysql_hostname=localhost|mysql_hostname=${BUILD_MYSQL_HOST}|" "/tmp/ispconfig3_install/install/autoinstall.ini" && \
     sed -i "s/^ispconfig_port=8080$/ispconfig_port=${BUILD_ISPCONFIG_PORT}/g" "/tmp/ispconfig3_install/install/autoinstall.ini" && \
