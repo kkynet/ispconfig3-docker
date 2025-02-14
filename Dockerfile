@@ -39,11 +39,11 @@ RUN . /etc/os-release && \
     echo "deb-src http://deb.debian.org/debian-security/ $VERSION_CODENAME-security main non-free-firmware" >> /etc/apt/sources.list && \
     apt-get -qq -o Dpkg::Use-Pty=0 update && \
     apt-get -qq -o Dpkg::Use-Pty=0 --no-install-recommends install apt-utils locales libtimedate-perl supervisor ufw cron apache2 \
-                                                                   apache2-suexec-pristine apache2-utils ca-certificates dirmngr dnsutils \
-                                                                   gnupg gnupg2 haveged imagemagick libapache2-mod-fcgid libapache2-mod-passenger \
-                                                                   libapache2-mod-python libruby lsb-release mcrypt memcached python3 software-properties-common \
-                                                                   wget vim vim-nox mariadb-client iputils-ping net-tools procps borgbackup patch rsyslog rsyslog-relp \
-                                                                   logrotate git sendemail sudo ntp ntpdate && \
+                                    apache2-suexec-pristine apache2-utils ca-certificates dirmngr dnsutils \
+                                    gnupg gnupg2 haveged imagemagick libapache2-mod-fcgid libapache2-mod-passenger \
+                                    libapache2-mod-python libruby lsb-release mcrypt memcached python3 software-properties-common \
+                                    wget vim vim-nox mariadb-client iputils-ping net-tools procps borgbackup patch rsyslog rsyslog-relp \
+                                    mariadb-server logrotate git sendemail sudo ntp ntpdate && \
     sed -i -e "s/# ${BUILD_LOCALE}.UTF-8 UTF-8/${BUILD_LOCALE}.UTF-8 UTF-8/" /etc/locale.gen && \
     locale-gen && \
     ln -fs /usr/share/zoneinfo/${BUILD_TZ} /etc/localtime && \
@@ -92,7 +92,7 @@ RUN apt-get -qq -o Dpkg::Use-Pty=0 --no-install-recommends install libapache2-mo
 WORKDIR /tmp
 RUN wget "https://ispconfig.org/downloads/ISPConfig-${BUILD_ISPCONFIG_VERSION}.tar.gz" -q && \
     tar xfz ISPConfig-${BUILD_ISPCONFIG_VERSION}.tar.gz
-COPY ./autoinstall /tmp/ispconfig3_install/install/autoinstall.ini
+COPY ./autoinstall.ini /tmp/ispconfig3_install/install/autoinstall.ini
 RUN touch "/etc/mailname" && \
     sed -i "s|mysql_hostname=localhost|mysql_hostname=${BUILD_MYSQL_HOST}|" "/tmp/ispconfig3_install/install/autoinstall.ini" && \
     sed -i "s/^ispconfig_port=8080$/ispconfig_port=${BUILD_ISPCONFIG_PORT}/g" "/tmp/ispconfig3_install/install/autoinstall.ini" && \
