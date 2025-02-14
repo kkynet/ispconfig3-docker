@@ -1,22 +1,41 @@
 version: "3"
 services:
 
-    ispconfig3:
-        container_name: ispconfig3
-        image: ispconfig3-php8.2:debian11
+    dbispconfig:
+        container_name: dbispconfig
+        image: mysql:latest
         restart: always
         stdin_open: true
         tty: true
-        privileged: true
-#        env_file:
-#          - ./.env
+        environment:
+            - MYSQL_ROOT_PASSWORD=dbispconfigpass
+            - MYSQL_ROOT_HOST='%'
         volumes:
-          - ./resolv.conf:/etc/resolv.conf
+         - dbispconfig:/var/lib/mysql
+        ports:
+          - 3306:3306
+        networks:
+          internal:
+            ipv4_address: 10.0.2.4
+
+
+    ispconfig3:
+        container_name: ispconfig3
+        build: .
+        image: ispconfig3-php8.2:debian12.6-slim
+        restart: always
+        stdin_open: true
+        tty: true
+#        privileged: true
+        environment:
+            - LANGUAGE=C
+            - LANG=C.UTF-8
+            - LC_ALL=C.UTF-8
+            - HOSTNAME=myhost.test.com
+        volumes:
           - ./debian.cnf:/etc/mysql/debian.cnf
           - ./supervisor:/etc/supervisor
           - ./usr/local/ispconfig:/usr/local/ispconfig
-#          - ./autoinstall.ini:/tmp/ispconfig3_install/install/autoinstall.ini # remove after install
-#          - ./install.php:/tmp/ispconfig3_install/install/install.php # remove after install
 #          - ./data/letsencrypt:/etc/letsencrypt
 #          - ./data/etc/apache2/sites-available:/etc/apache2/sites-available
 #          - ./data/etc/apache2/sites-enabled:/etc/apache2/sites-enabled
@@ -24,14 +43,11 @@ services:
 #          - ./data/backup:/var/backup/
 #          - ./data/usr/ispconfig:/usr/local/ispconfig
 #          - ./data/etc/cron.d:/etc/cron.d
-#          - ./data/kis/bind:/etc/bind
-        hostname: panel.wr2k.net
+        hostname: myhost.test.com
         extra_hosts:
-          - "panel.wr2k.net:192.168.50.17"
+          - "myhost.test.com:10.0.1.3"
         cap_add:
-          - ALL
-#          - NET_ADMIN
-#          - NET_RAW
+          - SYS_ADMIN
         ports:
             - "80:80"
             - "443:443"
@@ -39,11 +55,13 @@ services:
             - "8081:8081"
         networks:
            external:
-              ipv4_address: 117.102.160.194
+              ipv4_address: 10.0.1.3
            internal:
               ipv4_address: 10.0.2.3
         entrypoint: /bin/sh -c "/usr/bin/supervisord"
 
+volume:
+  dbispconfig
 
 networks:
     external:
@@ -51,4 +69,4 @@ networks:
             name: external
     internal:
         external:
-            name: internal.60
+            name: internal
